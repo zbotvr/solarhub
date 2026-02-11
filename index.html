@@ -37,8 +37,9 @@
   <nav class="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-black/50 sticky top-0 z-50 shadow-md">
     <h1 class="text-2xl font-extrabold tracking-wide">🪐 SolarHub</h1>
     <div class="space-x-8 text-sm md:text-base font-medium">
-<a href="#" onclick="showSection('home')" class="hover:text-neon transition-colors">Home</a>
-<a href="#" onclick="showSection('projects')" class="hover:text-neon transition-colors">Projects</a>
+<a href="#" onclick="showSection(event, 'home')" class="hover:text-neon transition-colors">Home</a>
+<a href="#" onclick="showSection(event, 'projects')" class="hover:text-neon transition-colors">Projects</a>
+
 
     </div>
   </nav>
@@ -121,22 +122,22 @@
     }
   </script>
 
-  <script>
+<script>
   // Function to show one section and hide the others
-  function showSection(sectionId) {
+  function showSection(event, sectionId) {
+    event.preventDefault(); // prevents any URL changes
     const sections = document.querySelectorAll('section');
     sections.forEach(sec => {
-      if (sec.id === sectionId) {
-        sec.classList.remove('hidden');
-      } else {
-        sec.classList.add('hidden');
-      }
+      sec.style.display = sec.id === sectionId ? 'block' : 'none';
     });
   }
 
-  // Initialize: show home only
-  showSection('home');
+  // Initialize: show only home
+  document.addEventListener('DOMContentLoaded', () => {
+    showSection({ preventDefault: () => {} }, 'home'); // dummy event
+  });
 </script>
+
 
 </body>
 </html>
