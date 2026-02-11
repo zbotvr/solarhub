@@ -1,143 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SolarHub</title>
-  <!-- Favicon -->
-  <link rel="icon" type="images/x-icon" href="favicon.ico">
-  <link rel="icon" type="images/png" href="favicon.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            neon: '#7c3aed',
-            dark: '#0b0b0f'
-          }
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolarHub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        neon: '#7c3aed'
       }
     }
-  </script>
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-    /* Smooth hover scaling for images */
-    .hover-scale:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease;
-    }
-  </style>
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .fade { transition: opacity 0.5s ease; }
+</style>
 </head>
-<body class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-white font-sans">
+<body class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-white font-sans min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-black/50 sticky top-0 z-50 shadow-md">
-    <h1 class="text-2xl font-extrabold tracking-wide">🪐 SolarHub</h1>
-    <div class="space-x-8 text-sm md:text-base font-medium">
-<a href="#" onclick="showSection(event, 'home')" class="hover:text-neon transition-colors">Home</a>
-<a href="#" onclick="showSection(event, 'projects')" class="hover:text-neon transition-colors">Projects</a>
+<!-- Navbar -->
+<nav class="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-black/50 sticky top-0 z-50 shadow-md">
+  <h1 class="text-2xl font-extrabold tracking-wide">🪐 SolarHub</h1>
+  <div class="space-x-8 text-sm md:text-base font-medium">
+    <a href="#" onclick="switchSection(event,'home')" class="hover:text-neon transition-colors">Home</a>
+    <a href="#" onclick="switchSection(event,'projects')" class="hover:text-neon transition-colors">Projects</a>
+  </div>
+</nav>
 
+<!-- Sections -->
+<section id="home" class="fade block px-6 pt-32 pb-32 md:pb-48 text-center">
+  <h2 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+    Welcome to <span class="text-neon">SolarHub</span>
+  </h2>
+  <p class="max-w-2xl text-zinc-400 text-lg md:text-xl mb-10">
+    Free, easy-to-access "projects" to satisfy your curiosity, creativity, and chaos.
+  </p>
+  <div class="flex gap-6 justify-center">
+    <button onclick="switchSection(event,'projects')" class="px-8 py-4 rounded-xl bg-neon hover:opacity-80 transition font-semibold text-lg shadow-lg hover:shadow-neon/50">
+      View All "Projects"
+    </button>
+  </div>
+</section>
 
-    </div>
-  </nav>
+<section id="projects" class="fade hidden px-6 py-24 bg-black/40">
+  <h3 class="text-4xl font-bold mb-12 text-center">Featured "Projects"</h3>
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+    <!-- Project 1 -->
+    <a href="https://zbotvr.github.io/ddlcweb/" target="_blank" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <img src="images/ddlc.png" alt="Doki Doki Literature Club!" class="h-48 w-full object-cover rounded-2xl mb-5">
+      <h4 class="font-semibold text-xl mb-2">Doki Doki Literature Club!</h4>
+      <p class="text-zinc-400 text-sm md:text-base">An ACTUAL dating sim! ....unless.</p>
+    </a>
+    <!-- Project 2 -->
+    <a href="https://zbotvr.github.io/classof09webport/" target="_blank" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <img src="images/classof09cover.png" alt="Class of '09" class="h-48 w-full object-cover rounded-2xl mb-5">
+      <h4 class="font-semibold text-xl mb-2">Class of '09</h4>
+      <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator.</p>
+    </a>
+    <!-- Project 3 -->
+    <a href="https://zbotvr.github.io/Class-Of-09-The-Flip-Side/" target="_blank" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <img src="images/classof09coverflipside.jpg" alt="Class of '09: The Flip Side" class="h-48 w-full object-cover rounded-2xl mb-5">
+      <h4 class="font-semibold text-xl mb-2">Class of '09: The Flip Side</h4>
+      <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator, but you play as another character.</p>
+    </a>
+  </div>
+</section>
 
-  <!-- Hero -->
-  <section id="home" class="flex flex-col items-center justify-center text-center px-6 pt-32 pb-32 md:pb-48">
-    <h2 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-      Welcome to <span class="text-neon">SolarHub</span>
-    </h2>
-    <p class="max-w-2xl text-zinc-400 text-lg md:text-xl mb-10">
-      Free, easy-to-access "projects" to satisfy your curiosity, creativity, and chaos.
-    </p>
-    <div class="flex gap-6">
-      <a href="https://zbotvr.github.io/projects" class="px-8 py-4 rounded-xl bg-neon hover:opacity-80 transition font-semibold text-lg shadow-lg hover:shadow-neon/50">
-        View All "Projects"
-      </a>
-      <a href="#projects" class="px-8 py-4 rounded-xl border border-neon text-neon hover:bg-neon hover:text-black transition font-semibold text-lg">
-        Featured Projects
-      </a>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="px-6 py-24 bg-black/40">
-    <h3 class="text-4xl font-bold mb-12 text-center">Featured "Projects"</h3>
-
-    <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
-
-      <!-- Project 1 -->
-      <a href="https://zbotvr.github.io/ddlcweb/" target="_blank" rel="noopener" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
-        <img src="images/ddlc.png" alt="Doki Doki Literature Club!" class="h-48 w-full object-cover rounded-2xl mb-5 hover-scale">
-        <h4 class="font-semibold text-xl mb-2">Doki Doki Literature Club!</h4>
-        <p class="text-zinc-400 text-sm md:text-base">An ACTUAL dating sim! ....unless.</p>
-      </a>
-
-      <!-- Project 2 -->
-      <a href="https://zbotvr.github.io/classof09webport/" target="_blank" rel="noopener" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
-        <img src="images/classof09cover.png" alt="Class of '09" class="h-48 w-full object-cover rounded-2xl mb-5 hover-scale">
-        <h4 class="font-semibold text-xl mb-2">Class of '09</h4>
-        <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator.</p>
-      </a>
-
-      <!-- Project 3 -->
-      <a href="https://zbotvr.github.io/Class-Of-09-The-Flip-Side/" target="_blank" rel="noopener" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
-        <img src="images/classof09coverflipside.jpg" alt="Class of '09: The Flip Side" class="h-48 w-full object-cover rounded-2xl mb-5 hover-scale">
-        <h4 class="font-semibold text-xl mb-2">Class of '09: The Flip Side</h4>
-        <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator, but you play as another character.</p>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer id="FOOTER67MANGO" class="text-center py-8 text-sm text-zinc-500 bg-black/50">
-    © 2026 • SolarHub
-  </footer>
-
-  <script>
-    const footerTexts = [
-      "© 2026 • [AS]",
-      "© 2026 • Belgians arent a race!",
-      "© 2026 • SolarHub. Use at your own risk, or not, we dont care.",
-      "© 2026 • Made late at night with questionable decisions.",
-      "© 2026 • SolarHub, the site to die for.",
-      "© 2026 • I just popped a percy.",
-      "© 2026 • In honor of Charlie Kirky."
-    ];
-
-    const footer = document.getElementById("FOOTER67MANGO");
-    const chosenText = footerTexts[Math.floor(Math.random() * footerTexts.length)];
-
-    footer.textContent = chosenText;
-
-    if (chosenText === "© 2026 • [AS]") {
-      const audioFile = Math.random() < 0.5 ? "audio/as.wav" : "audio/as2.wav";
-      const audio = new Audio(audioFile);
-      audio.volume = 0.6;
-      audio.load();
-      document.addEventListener("click", () => audio.play().catch(() => {}), { once: true });
-    }
-  </script>
+<!-- Footer -->
+<footer id="FOOTER67MANGO" class="text-center py-8 text-sm text-zinc-500 bg-black/50">
+  © 2026 • SolarHub
+</footer>
 
 <script>
-  // Function to show one section and hide the others
-  function showSection(event, sectionId) {
-    event.preventDefault(); // prevents any URL changes
-    const sections = document.querySelectorAll('section');
-    sections.forEach(sec => {
-      sec.style.display = sec.id === sectionId ? 'block' : 'none';
-    });
+  // SPA fade transition
+  let currentSection = 'home';
+  function switchSection(event, sectionId) {
+    event.preventDefault();
+    if(sectionId === currentSection) return;
+
+    const newSec = document.getElementById(sectionId);
+    const oldSec = document.getElementById(currentSection);
+
+    // Fade out old
+    oldSec.style.opacity = 1;
+    let fadeOut = setInterval(() => {
+      oldSec.style.opacity -= 0.05;
+      if (oldSec.style.opacity <= 0) {
+        clearInterval(fadeOut);
+        oldSec.classList.add('hidden');
+        oldSec.style.opacity = 1; // reset
+
+        // Fade in new
+        newSec.classList.remove('hidden');
+        newSec.style.opacity = 0;
+        let fadeIn = setInterval(() => {
+          newSec.style.opacity = parseFloat(newSec.style.opacity) + 0.05;
+          if (newSec.style.opacity >= 1) clearInterval(fadeIn);
+        }, 15);
+      }
+    }, 15);
+
+    currentSection = sectionId;
   }
 
-  // Initialize: show only home
-  document.addEventListener('DOMContentLoaded', () => {
-    showSection({ preventDefault: () => {} }, 'home'); // dummy event
-  });
-</script>
+  // Footer randomizer + audio
+  const footerTexts = [
+    "© 2026 • [AS]",
+    "© 2026 • Belgians arent a race!",
+    "© 2026 • SolarHub. Use at your own risk, or not, we dont care.",
+    "© 2026 • Made late at night with questionable decisions.",
+    "© 2026 • SolarHub, the site to die for.",
+    "© 2026 • I just popped a percy.",
+    "© 2026 • In honor of Charlie Kirky."
+  ];
 
+  const footer = document.getElementById("FOOTER67MANGO");
+  const chosenText = footerTexts[Math.floor(Math.random()*footerTexts.length)];
+  footer.textContent = chosenText;
+
+  if(chosenText === "© 2026 • [AS]") {
+    const audioFile = Math.random()<0.5?"audio/as.wav":"audio/as2.wav";
+    const audio = new Audio(audioFile);
+    audio.volume = 0.6;
+    audio.load();
+    document.addEventListener("click",()=>audio.play().catch(()=>{}),{once:true});
+  }
+</script>
 
 </body>
 </html>
