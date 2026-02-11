@@ -10,18 +10,14 @@
 <script>
 tailwind.config = {
   theme: {
-    extend: {
-      colors: { neon: '#7c3aed' }
-    }
+    extend: { colors: { neon: '#7c3aed' } }
   }
 }
 </script>
 <style>
 html { scroll-behavior: smooth; }
-
 .fade { transition: opacity 0.5s ease; }
 .project { opacity: 0; animation: fadeUp 0.6s forwards; }
-
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -58,20 +54,21 @@ html { scroll-behavior: smooth; }
 
   <!-- Projects Section -->
   <section id="projects" class="fade hidden px-6 py-24">
+
     <!-- Featured Projects -->
     <h3 class="text-4xl font-bold mb-12 text-center">Featured "Projects"</h3>
     <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-16">
-      <a href="#" onclick="loadGame('https://zbotvr.github.io/classof09webport/')" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <a href="#" data-url="https://zbotvr.github.io/classof09webport/" onclick="loadGame(this.dataset.url)" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
         <img src="images/classof09cover.png" alt="Class of '09" class="h-48 w-full object-cover rounded-2xl mb-5">
         <h4 class="font-semibold text-xl mb-2">Class of '09</h4>
         <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator.</p>
       </a>
-      <a href="#" onclick="loadGame('https://zbotvr.github.io/classof09thereup/')" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <a href="#" data-url="https://zbotvr.github.io/classof09thereup/" onclick="loadGame(this.dataset.url)" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
         <img src="images/classof09tru.jpg" alt="Class of '09: The Re-Up" class="h-48 w-full object-cover rounded-2xl mb-5">
         <h4 class="font-semibold text-xl mb-2">Class of '09: The Re-Up</h4>
         <p class="text-zinc-400 text-sm md:text-base">It's not a sequel, it's the RE-UP.</p>
       </a>
-      <a href="#" onclick="loadGame('https://zbotvr.github.io/Class-Of-09-The-Flip-Side/')" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <a href="#" data-url="https://zbotvr.github.io/Class-Of-09-The-Flip-Side/" onclick="loadGame(this.dataset.url)" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
         <img src="images/classof09coverflipside.jpg" alt="Class of '09: The Flip Side" class="h-48 w-full object-cover rounded-2xl mb-5">
         <h4 class="font-semibold text-xl mb-2">Class of '09: The Flip Side</h4>
         <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator, but you play as another character.</p>
@@ -88,31 +85,43 @@ html { scroll-behavior: smooth; }
     <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
 
       <!-- All Projects -->
-      <a href="https://zbotvr.github.io/ddlcweb/" target="_blank" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.1s;">
+      <a href="#" data-url="https://zbotvr.github.io/ddlcweb/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.1s;">
         <img src="images/ddlc.png" alt="Doki Doki Literature Club!" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
         <h4 class="font-semibold text-lg">Doki Doki Literature Club!</h4>
         <p class="text-sm text-zinc-400">An ACTUAL dating sim! ....unless.</p>
       </a>
 
-      <a href="https://zbotvr.github.io/fridaynightfunkin/" target="_blank" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.2s;">
+      <a href="#" data-url="https://zbotvr.github.io/fridaynightfunkin/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.2s;">
         <img src="images/fridaynightfunkin.png" alt="Friday Night Funkin'" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
         <h4 class="font-semibold text-lg">Friday Night Funkin'</h4>
         <p class="text-sm text-zinc-400">Beep Bop Bap. :o</p>
       </a>
 
-      <a href="https://zbotvr.github.io/mc/" target="_blank" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.3s;">
+      <a href="#" data-url="https://zbotvr.github.io/mc/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.3s;">
         <img src="images/minecrafteg.png" alt="Minecraft" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
         <h4 class="font-semibold text-lg">Minecraft</h4>
         <p class="text-sm text-zinc-400">1.8.8 version of the game!</p>
       </a>
 
-      <a href="https://zbotvr.github.io/NEET-Girl-Date-Night/" target="_blank" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.4s;">
+      <a href="#" data-url="https://zbotvr.github.io/NEET-Girl-Date-Night/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.4s;">
         <img src="images/ngdn.png" alt="NEET Girl Date Night" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
         <h4 class="font-semibold text-lg">NEET Girl Date Night</h4>
         <p class="text-sm text-zinc-400">Suggested game, really good imo.. also its a date.. night.. iykyk</p>
       </a>
 
-      <a href="https://zbotvr.github.io/picos-school/" target="_blank" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.5s;">
+      <a href="#" data-url="https://zbotvr.github.io/classof09thereup/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.5s;">
+        <img src="images/classof09tru.jpg" alt="Class of '09: The Re-Up" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
+        <h4 class="font-semibold text-lg">Class of '09: The Re-Up</h4>
+        <p class="text-sm text-zinc-400">It's not a sequel, it's the RE-UP.</p>
+      </a>
+
+      <a href="#" data-url="https://zbotvr.github.io/Class-Of-09-The-Flip-Side/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.6s;">
+        <img src="images/classof09coverflipside.jpg" alt="Class of '09: The Flip Side" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
+        <h4 class="font-semibold text-lg">Class of '09: The Flip Side</h4>
+        <p class="text-sm text-zinc-400">The "rejection" simulator, but you play as another character.</p>
+      </a>
+
+      <a href="#" data-url="https://zbotvr.github.io/picos-school/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition" style="animation-delay:0.7s;">
         <img src="images/picosschool.webp" alt="Pico's School" class="h-40 w-full object-cover rounded-xl mb-4 hover:scale-105 transition-transform">
         <h4 class="font-semibold text-lg">Pico's School</h4>
         <p class="text-sm text-zinc-400">Stop a school shooting while getting high.. inspired by Columbine.</p>
@@ -131,15 +140,11 @@ html { scroll-behavior: smooth; }
 document.addEventListener("DOMContentLoaded", () => {
   const site = document.getElementById("site-container");
   setTimeout(() => site.style.opacity = 1, 50);
-
-  // Initialize SPA
   switchSection({ preventDefault: () => {} }, 'home');
 
   // Animate all projects
   const projects = document.querySelectorAll('.project');
-  projects.forEach((el, i) => {
-    el.style.animationDelay = `${0.1 + i*0.1}s`;
-  });
+  projects.forEach((el,i) => { el.style.animationDelay = `${0.1 + i*0.1}s`; });
 });
 
 let currentSection = 'home';
@@ -170,7 +175,7 @@ function switchSection(event, sectionId) {
   currentSection = sectionId;
 }
 
-// Load iframe for featured projects
+// Load iframe for any project
 function loadGame(url) {
   const frame = document.getElementById('game-frame');
   const iframe = document.getElementById('game-iframe');
