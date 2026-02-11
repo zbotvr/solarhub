@@ -54,26 +54,31 @@ tailwind.config = {
     <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
 
       <!-- Project 1 -->
-      <a href="https://zbotvr.github.io/ddlcweb/" target="_blank" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <a href="#" onclick="loadGame('https://zbotvr.github.io/ddlcweb/')" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
         <img src="images/ddlc.png" alt="Doki Doki Literature Club!" class="h-48 w-full object-cover rounded-2xl mb-5">
         <h4 class="font-semibold text-xl mb-2">Doki Doki Literature Club!</h4>
         <p class="text-zinc-400 text-sm md:text-base">An ACTUAL dating sim! ....unless.</p>
       </a>
 
       <!-- Project 2 -->
-      <a href="https://zbotvr.github.io/classof09webport/" target="_blank" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <a href="#" onclick="loadGame('https://zbotvr.github.io/classof09webport/')" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
         <img src="images/classof09cover.png" alt="Class of '09" class="h-48 w-full object-cover rounded-2xl mb-5">
         <h4 class="font-semibold text-xl mb-2">Class of '09</h4>
         <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator.</p>
       </a>
 
       <!-- Project 3 -->
-      <a href="https://zbotvr.github.io/Class-Of-09-The-Flip-Side/" target="_blank" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+      <a href="#" onclick="loadGame('https://zbotvr.github.io/Class-Of-09-The-Flip-Side/')" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
         <img src="images/classof09coverflipside.jpg" alt="Class of '09: The Flip Side" class="h-48 w-full object-cover rounded-2xl mb-5">
         <h4 class="font-semibold text-xl mb-2">Class of '09: The Flip Side</h4>
         <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator, but you play as another character.</p>
       </a>
 
+    </div>
+
+    <!-- Iframe container for games -->
+    <div id="game-frame" class="mt-12 hidden w-full h-[600px] bg-black rounded-xl overflow-hidden shadow-lg">
+      <iframe id="game-iframe" src="" frameborder="0" class="w-full h-full"></iframe>
     </div>
   </section>
 
@@ -123,6 +128,23 @@ tailwind.config = {
     }, 15);
 
     currentSection = sectionId;
+  }
+
+  // Function to load iframe games
+  function loadGame(url) {
+    const frame = document.getElementById('game-frame');
+    const iframe = document.getElementById('game-iframe');
+
+    iframe.src = url;
+    frame.classList.remove('hidden');
+    frame.style.opacity = 0;
+    let fadeIn = setInterval(() => {
+      frame.style.opacity = parseFloat(frame.style.opacity) + 0.05;
+      if (frame.style.opacity >= 1) clearInterval(fadeIn);
+    }, 15);
+
+    // Scroll smoothly to iframe
+    frame.scrollIntoView({ behavior: 'smooth' });
   }
 
   // Footer randomizer + audio
