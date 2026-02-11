@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarHub Ultra Games</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1>SolarHub Ultra</h1>
+    <nav>
+      <a href="#games">Games</a>
+      <a href="#media">Media</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Search Bar -->
+  <section class="search-section">
+    <input type="text" id="search-bar" placeholder="Search games..." onkeyup="filterGames()">
+  </section>
+
+  <!-- Games Grid -->
+  <section id="games" class="section">
+    <h2>Unblocked Games Library</h2>
+    <div class="game-grid">
+
+      <div class="game-card">
+        <img src="assets/images/game1.png" alt="Game 1">
+        <h3>Super Speed Racer</h3>
+        <p>Race through neon tracks at lightning speed.</p>
+        <button onclick="openGame('https://example.com/game1')">Play Now</button>
+      </div>
+
+      <div class="game-card">
+        <img src="assets/images/game2.png" alt="Game 2">
+        <h3>Pixel Shooter</h3>
+        <p>Defeat enemies in this retro pixel shooter.</p>
+        <button onclick="openGame('https://example.com/game2')">Play Now</button>
+      </div>
+
+      <div class="game-card">
+        <img src="assets/images/game3.png" alt="Game 3">
+        <h3>Maze Escape</h3>
+        <p>Solve puzzles and escape neon mazes.</p>
+        <button onclick="openGame('https://example.com/game3')">Play Now</button>
+      </div>
+
+      <!-- Add more game cards here -->
+    </div>
+  </section>
+
+  <!-- Media Section -->
+  <section id="media" class="section">
+    <h2>Media</h2>
+    <div class="media-grid">
+      <audio controls class="media-item">
+        <source src="assets/audio/as.mp3" type="audio/mp3">
+      </audio>
+      <audio controls class="media-item">
+        <source src="assets/audio/as2.mp3" type="audio/mp3">
+      </audio>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p id="footer-text">© 2026 • SolarHub Ultra</p>
+    <button id="footer-audio">Play Random Sound</button>
+  </footer>
+
+  <!-- Lightbox & JS -->
+  <script>
+    const footerTexts = [
+      "© 2026 • SolarHub Ultra",
+      "© 2026 • Made with cyberpunk energy",
+      "© 2026 • Holographic code vibes"
+    ];
+
+    const audio = new Audio();
+
+    document.getElementById('footer-audio').addEventListener('click', () => {
+      audio.src = Math.random() > 0.5 ? 'assets/audio/as.mp3' : 'assets/audio/as2.mp3';
+      audio.play();
+    });
+
+    setInterval(() => {
+      document.getElementById('footer-text').textContent = footerTexts[Math.floor(Math.random()*footerTexts.length)];
+    }, 10000);
+
+    function openGame(url) {
+      const lightbox = document.createElement('div');
+      lightbox.id = 'game-lightbox';
+      lightbox.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center;
+        z-index: 9999;
+      `;
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.style.cssText = 'width: 90%; height: 90%; border: none; border-radius: 20px;';
+      const closeBtn = document.createElement('button');
+      closeBtn.innerText = '✖';
+      closeBtn.style.cssText = `
+        position: absolute; top: 20px; right: 40px; font-size: 2rem;
+        color: #ff00ff; background: none; border: none; cursor: pointer;
+      `;
+      closeBtn.onclick = () => document.body.removeChild(lightbox);
+      lightbox.appendChild(iframe);
+      lightbox.appendChild(closeBtn);
+      document.body.appendChild(lightbox);
+    }
+
+    function filterGames() {
+      const input = document.getElementById('search-bar').value.toLowerCase();
+      const cards = document.getElementsByClassName('game-card');
+      Array.from(cards).forEach(card => {
+        const title = card.getElementsByTagName('h3')[0].innerText.toLowerCase();
+        card.style.display = title.includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
