@@ -23,20 +23,58 @@ tailwind.config = {
 :root { --accent-color: #7c3aed; }
 html { scroll-behavior: smooth; }
 
+/* Project hover effects */
 .project-card img, .project img { transition: transform 0.2s ease; }
 .project-card:hover img, .project:hover img { transform: scale(1.05); }
 
-.toggle-checkbox { width: 2rem; height: 1rem; accent-color: var(--accent-color); cursor: pointer; border-radius: 9999px; }
-.theme-btn { padding: 0.5rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; color: white; }
+/* Toggle switches */
+.toggle-checkbox { 
+  width: 2rem; 
+  height: 1rem; 
+  accent-color: var(--accent-color); 
+  cursor: pointer; 
+  border-radius: 9999px; 
+}
+
+/* Theme buttons */
+.theme-btn { 
+  padding: 0.5rem; 
+  border-radius: 0.5rem; 
+  font-size: 0.875rem; 
+  font-weight: 500; 
+  color: white; 
+}
 .theme-btn:hover { transform: scale(1.05); }
 
+/* Fullscreen button (YouTube-style) */
 #fullscreenBtn {
   opacity: 0.7;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  transition: background 0.2s, opacity 0.2s, transform 0.2s;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  z-index: 50;
 }
 #game-frame:hover #fullscreenBtn {
   opacity: 1;
+  background: rgba(0,0,0,0.7);
+  transform: scale(1.1);
+}
+#fullscreenBtn svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  stroke: white;
 }
 </style>
+
 </head>
 
 <body class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-white font-sans min-h-screen flex justify-center">
@@ -89,15 +127,17 @@ html { scroll-behavior: smooth; }
     </a>
   </div>
 
-  <!-- Iframe container -->
-  <div id="game-frame" class="mt-12 relative hidden w-full h-[600px] bg-black rounded-xl overflow-hidden shadow-lg">
-    <iframe id="game-iframe" src="" frameborder="0" class="w-full h-full"></iframe>
-    <button id="fullscreenBtn" title="Fullscreen" class="absolute bottom-3 right-3 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
-      </svg>
-    </button>
-  </div>
+<!-- Iframe container -->
+<div id="game-frame" class="mt-12 relative hidden w-full h-[600px] bg-black rounded-xl overflow-hidden shadow-lg">
+  <iframe id="game-iframe" src="" frameborder="0" class="w-full h-full"></iframe>
+  <!-- Fullscreen button overlay -->
+  <button id="fullscreenBtn" title="Fullscreen" onclick="toggleFullscreen()">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
+    </svg>
+  </button>
+</div>
+
 
   <!-- All Projects Header -->
   <h3 class="text-4xl font-bold mb-12 mt-24 text-center">All Projects</h3>
@@ -309,6 +349,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+  // Fullscreen function
+window.toggleFullscreen = () => {
+  const iframe = document.getElementById('game-iframe');
+  if (iframe.requestFullscreen) iframe.requestFullscreen();
+  else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen(); // Safari
+  else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen(); // IE11
+};
+
 </script>
 
 </body>
