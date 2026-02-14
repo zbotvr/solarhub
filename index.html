@@ -20,21 +20,24 @@ tailwind.config = {
 </script>
 
 <style>
-  /* Make the body a flex column so footer is pushed down */
-body {
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#site-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* ensures it fills at least the viewport height */
+  min-height: 100%;
 }
 
-/* The main content container grows to fill space */
-#site-container {
-  flex: 1; /* takes all remaining space */
+section {
+  flex: 1; /* Makes each section expand to fill available space */
 }
 
-/* Footer stays at the bottom of content, not viewport */
 footer {
-  margin-top: auto; /* pushes footer down naturally */
+  margin-top: auto; /* Push footer to bottom */
 }
 
 :root { --accent-color: #7c3aed; }
