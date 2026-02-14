@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolarHub Projects</title>
+
+<link id="originalFavicon" rel="icon" type="image/png" href="images/solarhub.png">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: { colors: { neon: 'var(--accent-color)' } } } };
+</script>
+
+<style>
+:root { --accent-color: #7c3aed; }
+html { scroll-behavior: smooth; }
+.project-card img, .project img { transition: transform 0.2s ease; }
+.project-card:hover img, .project:hover img { transform: scale(1.05); }
+
+.toggle-checkbox { width: 2rem; height: 1rem; accent-color: var(--accent-color); cursor: pointer; border-radius: 9999px; }
+.theme-btn { padding: 0.5rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; color: white; }
+.theme-btn:hover { transform: scale(1.05); }
+</style>
+</head>
+
+<body class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-white font-sans min-h-screen flex justify-center">
+
+<div id="site-container" class="w-[90%]">
+
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-black/50 sticky top-0 z-50 shadow-md">
+    <h1 class="text-2xl font-extrabold tracking-wide">🪐 SolarHub</h1>
+    <div class="space-x-4 md:space-x-8 text-sm md:text-base font-medium flex items-center">
+      <a href="index.html" class="hover:text-neon transition-colors">Home</a>
+      <a href="projects.html" class="hover:text-neon transition-colors">Projects</a>
+      <button onclick="toggleSettings()" class="px-3 py-1 bg-black/50 rounded-md hover:bg-black/70 transition">Settings</button>
+    </div>
+  </nav>
+
+  <!-- Projects Section -->
+  <section id="projects" class="px-6 py-24">
+
+    <!-- Featured Projects -->
+    <h3 class="text-4xl font-bold mb-12 text-center">Featured "Projects"</h3>
+    <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-16">
+      <a href="#" data-url="https://zbotvr.github.io/classof09webport/" onclick="loadGame(this.dataset.url)" class="block rounded-3xl bg-white/5 p-6 hover:-translate-y-2 hover:bg-white/10 transition transform shadow-lg hover:shadow-neon/30">
+        <img src="images/classof09cover.png" alt="Class of '09" class="h-48 w-full object-cover rounded-2xl mb-5">
+        <h4 class="font-semibold text-xl mb-2">Class of '09</h4>
+        <p class="text-zinc-400 text-sm md:text-base">The "rejection" simulator.</p>
+      </a>
+      <!-- Add more featured projects here -->
+    </div>
+
+    <!-- Iframe container -->
+    <div id="game-frame" class="mt-12 hidden w-full h-[600px] bg-black rounded-xl overflow-hidden shadow-lg relative">
+      <iframe id="game-iframe" src="" frameborder="0" class="w-full h-full"></iframe>
+      <button id="fullscreenBtn" class="absolute bottom-3 right-3 bg-black/70 text-white px-3 py-1 rounded hover:bg-black/90">⛶</button>
+    </div>
+
+    <!-- All Projects -->
+    <h3 class="text-4xl font-bold mb-12 mt-24 text-center">All Projects</h3>
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
+      <a href="#" data-url="https://zbotvr.github.io/ddlcweb/" onclick="loadGame(this.dataset.url)" class="project block rounded-2xl bg-white/5 p-5 hover:-translate-y-1 hover:bg-white/10 transition">
+        <img src="images/ddlc.png" alt="Doki Doki Literature Club!" class="h-40 w-full object-cover rounded-xl mb-4">
+        <h4 class="font-semibold text-lg">Doki Doki Literature Club!</h4>
+        <p class="text-sm text-zinc-400">An ACTUAL dating sim! ....unless.</p>
+      </a>
+      <!-- Add more projects here -->
+    </div>
+  </section>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+    <div class="bg-zinc-900 text-white w-96 max-h-[90vh] overflow-y-auto rounded-2xl p-6 relative shadow-lg">
+      <h2 class="text-2xl font-bold mb-6">Settings</h2>
+      <button onclick="toggleSettings()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl">&times;</button>
+
+      <div class="mb-6">
+        <h3 class="font-semibold mb-2">Theme</h3>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="theme-btn bg-purple-600 hover:bg-purple-500" data-theme="purple">Purple</button>
+          <button class="theme-btn bg-green-600 hover:bg-green-500" data-theme="green">Green</button>
+          <button class="theme-btn bg-blue-600 hover:bg-blue-500" data-theme="blue">Blue</button>
+          <button class="theme-btn bg-red-600 hover:bg-red-500" data-theme="red">Red</button>
+          <button class="theme-btn bg-pink-500 hover:bg-pink-400" data-theme="pink">Pink</button>
+          <button class="theme-btn bg-orange-500 hover:bg-orange-400" data-theme="orange">Orange</button>
+          <button class="theme-btn bg-cyan-400 hover:bg-cyan-300" data-theme="cyan">Cyan</button>
+          <button class="theme-btn bg-yellow-400 hover:bg-yellow-300" data-theme="yellow">Yellow</button>
+          <button class="theme-btn bg-slate-800 hover:bg-slate-700" data-theme="slate">Slate</button>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <span>Enable Tab Cloaking</span>
+          <input type="checkbox" id="tabCloakToggle" class="toggle-checkbox">
+        </div>
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center">
+            <span>Enable Panic Key</span>
+            <input type="checkbox" id="panicKeyToggle" class="toggle-checkbox">
+          </div>
+          <input type="text" id="panicCustomLink" placeholder="Example: https://www.youtube.com" class="mt-1 p-2 rounded bg-zinc-800 text-white text-sm">
+        </div>
+        <div class="flex justify-between items-center">
+          <span>Enable Stealth Mode</span>
+          <input type="checkbox" id="stealthModeToggle" class="toggle-checkbox">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Section switching removed; separate pages now
+  const loadGame = url => {
+    const frame = document.getElementById('game-frame');
+    const iframe = document.getElementById('game-iframe');
+    iframe.src = url;
+    frame.classList.remove('hidden');
+    frame.scrollIntoView({ behavior: 'smooth' });
+  };
+  window.loadGame = loadGame;
+
+  const modal = document.getElementById('settingsModal');
+  window.toggleSettings = () => modal.classList.toggle('hidden');
+
+  // Themes
+  const colors = {
+    purple:'#7c3aed', green:'#16a34a', blue:'#2563eb', red:'#dc2626',
+    pink:'#ec4899', orange:'#f59e0b', cyan:'#06b6d4', yellow:'#facc15', slate:'#334155'
+  };
+  const savedTheme = localStorage.getItem('solarhub-theme');
+  if(savedTheme) document.documentElement.style.setProperty('--accent-color', colors[savedTheme]);
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.theme;
+      document.documentElement.style.setProperty('--accent-color', colors[theme]);
+      localStorage.setItem('solarhub-theme', theme);
+    });
+  });
+
+  // Tab Cloak & Panic Key
+  const tabCloakToggle = document.getElementById('tabCloakToggle');
+  const panicKeyToggle = document.getElementById('panicKeyToggle');
+  const stealthModeToggle = document.getElementById('stealthModeToggle');
+  const panicCustomLink = document.getElementById('panicCustomLink');
+
+  const originalTitle = document.title;
+  const originalFavicon = document.getElementById('originalFavicon');
+  const originalHref = originalFavicon.href;
+  const googleFavicon = 'https://www.google.com/favicon.ico';
+  const googleTitle = 'Google';
+
+  function applyTabCloak(enabled){
+    if(enabled){
+      document.title = googleTitle;
+      originalFavicon.href = googleFavicon;
+    } else {
+      document.title = originalTitle;
+      originalFavicon.href = originalHref;
+    }
+  }
+
+  tabCloakToggle.checked = localStorage.getItem('tabCloak') === 'true';
+  panicKeyToggle.checked = localStorage.getItem('panicKey') === 'true';
+  stealthModeToggle.checked = localStorage.getItem('stealthMode') === 'true';
+  applyTabCloak(tabCloakToggle.checked);
+
+  tabCloakToggle.addEventListener('change', () => {
+    localStorage.setItem('tabCloak', tabCloakToggle.checked);
+    applyTabCloak(tabCloakToggle.checked);
+  });
+
+  document.addEventListener('keydown', e => {
+    if(panicKeyToggle.checked && e.key === "'") {
+      const link = panicCustomLink.value.trim() || 'https://www.google.com';
+      window.location.href = link;
+    }
+  });
+
+  panicKeyToggle.addEventListener('change', () => {
+    localStorage.setItem('panicKey', panicKeyToggle.checked);
+  });
+
+  stealthModeToggle.addEventListener('change', () => {
+    const val = stealthModeToggle.checked;
+    localStorage.setItem('stealthMode', val);
+    tabCloakToggle.checked = val;
+    panicKeyToggle.checked = val;
+    localStorage.setItem('tabCloak', val);
+    localStorage.setItem('panicKey', val);
+    applyTabCloak(val);
+  });
+
+  // Fullscreen button for iframe
+  const fsBtn = document.getElementById('fullscreenBtn');
+  const iframe = document.getElementById('game-iframe');
+  fsBtn.addEventListener('click', () => {
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+  });
+
+});
+</script>
+
+</body>
+</html>
