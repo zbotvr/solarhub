@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SolarHub</title>
 
 <link id="originalFavicon" rel="icon" type="image/png" href="images/solarhub.png">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config = { theme: { extend: { colors: { neon: 'var(--accent-color)' } } } };
+tailwind.config = {
+  theme: { extend: { colors: { neon: 'var(--accent-color)' } } }
+}
 </script>
 
 <style>
@@ -19,32 +21,49 @@ html { scroll-behavior: smooth; }
 </head>
 
 <body class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-white font-sans min-h-screen flex justify-center">
+<div id="site-container" class="w-[90%]">
 
-<div class="w-[90%]">
+<!-- Navbar -->
+<nav class="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-black/50 sticky top-0 z-50 shadow-md">
+  <h1 class="text-2xl font-extrabold tracking-wide">🪐 SolarHub</h1>
+  <div class="space-x-4 md:space-x-8 text-sm md:text-base font-medium flex items-center">
+    <a href="index.html" class="hover:text-neon transition-colors">Home</a>
+    <a href="projects.html?autoload=true" class="hover:text-neon transition-colors">Projects</a>
+    <button onclick="toggleSettings()" class="px-3 py-1 bg-black/50 rounded-md hover:bg-black/70 transition">Settings</button>
+  </div>
+</nav>
 
-  <!-- Navbar -->
-  <nav class="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-black/50 sticky top-0 z-50 shadow-md">
-    <h1 class="text-2xl font-extrabold tracking-wide">🪐 SolarHub</h1>
-    <div class="space-x-4 md:space-x-8 text-sm md:text-base font-medium flex items-center">
-      <a href="index.html" class="hover:text-neon transition-colors">Home</a>
-      <a href="projects.html" class="hover:text-neon transition-colors">Projects</a>
-    </div>
-  </nav>
+<!-- Home Section -->
+<section id="home" class="block px-6 pt-32 pb-32 text-center">
+  <h2 class="text-5xl md:text-7xl font-extrabold mb-6">
+    Welcome to <span class="text-neon">SolarHub</span>
+  </h2>
+  <p class="mx-auto max-w-2xl text-zinc-400 text-lg mb-10">
+    Free, easy-to-access projects to explore and enjoy.
+  </p>
+  <a href="projects.html?autoload=true" class="px-8 py-4 rounded-xl bg-neon hover:opacity-80 transition font-semibold shadow-lg inline-block">
+    View Projects
+  </a>
+</section>
 
-  <!-- Home Section -->
-  <section class="block px-6 pt-32 pb-32 text-center">
-    <h2 class="text-5xl md:text-7xl font-extrabold mb-6">
-      Welcome to <span class="text-neon">SolarHub</span>
-    </h2>
-    <p class="mx-auto max-w-2xl text-zinc-400 text-lg mb-10">
-      Free, easy-to-access projects to explore and enjoy.
-    </p>
-    <a href="projects.html" class="px-8 py-4 rounded-xl bg-neon hover:opacity-80 transition font-semibold shadow-lg inline-block">
-      View Projects
-    </a>
-  </section>
+<!-- Footer -->
+<footer id="FOOTER67MANGO" class="text-center py-8 text-sm text-zinc-500 bg-black/50">
+  © 2026 • SolarHub
+</footer>
 
+<!-- Settings Modal -->
+<div id="settingsModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+  <div class="bg-zinc-900 text-white w-96 max-h-[90vh] overflow-y-auto rounded-2xl p-6 relative shadow-lg">
+    <h2 class="text-2xl font-bold mb-6">Settings</h2>
+    <button onclick="toggleSettings()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl">&times;</button>
+    <p class="text-zinc-400 text-sm">Settings are only available on the Projects page.</p>
+  </div>
 </div>
+
+<script>
+const modal = document.getElementById('settingsModal');
+function toggleSettings() { modal.classList.toggle('hidden'); }
+</script>
 
 </body>
 </html>
