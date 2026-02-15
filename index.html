@@ -379,6 +379,22 @@ window.toggleFullscreen = () => {
 };
 
 </script>
+<!-- Open Chat Button -->
+<button id="openChatBtn">Open Chat</button>
+
+<!-- Chat Modal -->
+<div id="chatModal" class="modal">
+  <div class="modal-content chat-box">
+    <span id="closeChatBtn">&times;</span>
+    <h2>SolarHub Chat</h2>
+
+    <div id="chatMessages"></div>
+
+    <input type="text" id="usernameInput" placeholder="Enter username">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button id="sendMessageBtn">Send</button>
+  </div>
+</div>
 
 </body>
 </html>
