@@ -118,7 +118,7 @@
   .hero{
     max-width: 900px;
     margin: 0 auto;
-    padding: 80px 24px 56px;
+    padding: 80px 24px 32px;
   }
 
   .hero h1{
@@ -166,7 +166,7 @@
   }
   .roll-head:first-of-type{ margin-top: 0; }
 
-  /* ---------- featured strip ---------- */
+  /* ---------- featured / mini strips ---------- */
   .featured{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -175,6 +175,7 @@
 
   .featured .card{
     display: block;
+    position: relative;
     text-decoration: none;
     border: 1px solid var(--line);
     border-radius: 4px;
@@ -213,6 +214,49 @@
     margin: 0;
   }
 
+  .featured.mini-grid{ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .featured.mini-grid .card img{ height: 88px; }
+  .featured.mini-grid .card .body{ padding: 10px 12px 12px; }
+  .featured.mini-grid .card h3{ font-size: 0.9rem; margin: 0; }
+
+  .home-extra .roll-head{ display: none; }
+  .home-extra .roll-head.show-group{ display: flex; }
+  .home-extra .featured{ display: none; }
+  .home-extra .featured.show-group{ display: grid; }
+
+  /* ---------- favorite star ---------- */
+  .fav-btn{
+    background: rgba(0,0,0,0.45);
+    border: none;
+    color: var(--ink);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    transition: background 0.2s var(--ease), transform 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .fav-btn:hover{ transform: scale(1.1); background: rgba(0,0,0,0.65); }
+  .fav-btn svg{ width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+  .fav-btn.active{ color: var(--accent); }
+  .fav-btn.active svg{ fill: currentColor; }
+
+  .card .fav-btn{
+    position: absolute;
+    top: 8px; right: 8px;
+    z-index: 2;
+  }
+
+  .row-fav{
+    background: none;
+    width: 26px; height: 26px;
+    flex: none;
+    color: var(--muted);
+  }
+  ol.rows li a:hover .row-fav{ color: var(--bg); opacity: 0.85; }
+  ol.rows li a:hover .row-fav.active{ color: var(--ink); opacity: 1; }
+
   /* ---------- full list, row style ---------- */
   ol.rows{ list-style: none; margin: 0; padding: 0; }
   ol.rows li{ border-bottom: 1px solid var(--line); }
@@ -220,7 +264,7 @@
   ol.rows li a{
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     text-decoration: none;
     padding: 12px 6px;
     position: relative;
@@ -469,6 +513,7 @@
   html.reduce-motion #fsBtn:hover,
   html.reduce-motion .swatch:hover,
   html.reduce-motion .modal .close:hover,
+  html.reduce-motion .fav-btn:hover,
   html.reduce-motion ol.rows li a:hover img{
     transform: none !important;
   }
@@ -491,6 +536,14 @@
     <h1>free projects to play in your browser</h1>
     <p>no downloads, no accounts. pick something from the list and it loads right here on the page.</p>
     <button data-goto="projects">view projects</button>
+  </div>
+
+  <div class="wrap home-extra">
+    <div class="roll-head" id="recentGroup"><span>continue playing</span></div>
+    <div class="featured mini-grid" id="recentGrid"></div>
+
+    <div class="roll-head" id="favGroup"><span>favorites</span></div>
+    <div class="featured mini-grid" id="favGrid"></div>
   </div>
 </section>
 
@@ -586,11 +639,112 @@
     { id: "projects", label: "projects" }
   ];
 
+  const STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.95 6.28 6.75.83-5.02 4.7 1.36 6.85L12 17.6l-6.04 3.56 1.36-6.85-5.02-4.7 6.75-.83L12 2.5z"/></svg>';
+
+  function projectByUrl(url){ return projects.find(p => p.url === url); }
+
+  // ---- favorites ----
+  function getFavorites(){
+    try{ return JSON.parse(localStorage.getItem('solarhub-favorites')) || []; }
+    catch(e){ return []; }
+  }
+  function isFavorite(url){ return getFavorites().includes(url); }
+  function toggleFavorite(url){
+    let arr = getFavorites();
+    if(arr.includes(url)) arr = arr.filter(u => u !== url);
+    else arr.unshift(url);
+    localStorage.setItem('solarhub-favorites', JSON.stringify(arr));
+    document.querySelectorAll('.fav-btn').forEach(b => {
+      if(b.dataset.url === url) b.classList.toggle('active', arr.includes(url));
+    });
+    renderHomeLists();
+  }
+
+  // ---- recently played ----
+  function getRecent(){
+    try{ return JSON.parse(localStorage.getItem('solarhub-recent')) || []; }
+    catch(e){ return []; }
+  }
+  function addRecent(url){
+    let arr = getRecent().filter(u => u !== url);
+    arr.unshift(url);
+    arr = arr.slice(0, 3);
+    localStorage.setItem('solarhub-recent', JSON.stringify(arr));
+  }
+
+  // ---- home strips ----
+  function renderHomeGroup(headId, gridId, list){
+    const head = document.getElementById(headId);
+    const grid = document.getElementById(gridId);
+    if(!list.length){
+      head.classList.remove('show-group');
+      grid.classList.remove('show-group');
+      grid.innerHTML = '';
+      return;
+    }
+    head.classList.add('show-group');
+    grid.classList.add('show-group');
+    grid.innerHTML = list.map(p => cardHTML(p, true)).join('');
+    wireGameLinks(grid);
+    wireFavButtons(grid);
+  }
+
+  function renderHomeLists(){
+    renderHomeGroup('recentGroup', 'recentGrid', getRecent().map(projectByUrl).filter(Boolean));
+    renderHomeGroup('favGroup', 'favGrid', getFavorites().map(projectByUrl).filter(Boolean));
+  }
+
+  // ---- card / row markup ----
+  function cardHTML(p, mini){
+    const fav = isFavorite(p.url);
+    return `
+    <a class="card" href="#" data-url="${p.url}">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <button class="fav-btn${fav ? ' active' : ''}" data-url="${p.url}" aria-label="toggle favorite">${STAR_SVG}</button>
+      <div class="body">
+        <h3>${p.name}</h3>
+        ${mini ? '' : `<p>${p.note}</p>`}
+      </div>
+    </a>`;
+  }
+
+  function rowHTML(p, i){
+    const fav = isFavorite(p.url);
+    return `
+    <li>
+      <a href="#" data-url="${p.url}">
+        <span class="n">${String(i + 1).padStart(2, '0')}</span>
+        <img src="${p.img}" alt="" loading="lazy">
+        <span class="info">
+          <span class="name">${p.name}</span><br>
+          <span class="note">${p.note}</span>
+        </span>
+        <button class="fav-btn row-fav${fav ? ' active' : ''}" data-url="${p.url}" aria-label="toggle favorite">${STAR_SVG}</button>
+      </a>
+    </li>`;
+  }
+
+  function wireGameLinks(root){
+    root.querySelectorAll('[data-url]:not(.fav-btn)').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); openGame(el.dataset.url); });
+    });
+  }
+
+  function wireFavButtons(root){
+    root.querySelectorAll('.fav-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(btn.dataset.url);
+      });
+    });
+  }
+
   // ---- apply saved landing tab before first paint ----
   const savedLanding = localStorage.getItem('solarhub-landing') || 'home';
   document.getElementById(savedLanding === 'projects' ? 'projects' : 'home').classList.add('active', 'show');
 
-  // ---- nav ----
+  // ---- section nav ----
   let switching = false;
 
   function showSection(id){
@@ -632,61 +786,53 @@
     el.addEventListener('click', () => showSection(el.dataset.goto));
   });
 
-  // ---- render featured ----
-  const featuredEl = document.getElementById('featured');
-  featuredEl.innerHTML = projects.filter(p => p.featured).map(p => `
-    <a class="card" href="#" data-url="${p.url}">
-      <img src="${p.img}" alt="${p.name}" loading="lazy">
-      <div class="body">
-        <h3>${p.name}</h3>
-        <p>${p.note}</p>
-      </div>
-    </a>
-  `).join('');
-
-  // ---- render full list ----
-  const rowsEl = document.getElementById('allRows');
-  rowsEl.innerHTML = projects.map((p, i) => `
-    <li>
-      <a href="#" data-url="${p.url}">
-        <span class="n">${String(i + 1).padStart(2, '0')}</span>
-        <img src="${p.img}" alt="" loading="lazy">
-        <span class="info">
-          <span class="name">${p.name}</span><br>
-          <span class="note">${p.note}</span>
-        </span>
-      </a>
-    </li>
-  `).join('');
-  document.getElementById('count').textContent = String(projects.length).padStart(2, '0') + ' total';
-
   // ---- player ----
   const player = document.getElementById('player');
   const frame = document.getElementById('gameFrame');
 
-  document.querySelectorAll('[data-url]').forEach(el => {
-    el.addEventListener('click', e => {
-      e.preventDefault();
-      const reduced = document.documentElement.classList.contains('reduce-motion');
-      const alreadyOpen = player.classList.contains('active');
-      if(!alreadyOpen || reduced){
-        frame.src = el.dataset.url;
-        player.classList.add('active');
-      } else {
-        player.classList.remove('active');
-        setTimeout(() => {
-          frame.src = el.dataset.url;
-          player.classList.add('active');
-        }, 300);
-      }
-      setTimeout(() => player.scrollIntoView({ behavior: 'smooth', block: 'center' }), reduced ? 0 : 120);
-    });
-  });
+  function loadGame(url){
+    const reduced = document.documentElement.classList.contains('reduce-motion');
+    const alreadyOpen = player.classList.contains('active');
+    if(!alreadyOpen || reduced){
+      frame.src = url;
+      player.classList.add('active');
+    } else {
+      player.classList.remove('active');
+      setTimeout(() => { frame.src = url; player.classList.add('active'); }, 300);
+    }
+    setTimeout(() => player.scrollIntoView({ behavior: 'smooth', block: 'center' }), reduced ? 0 : 120);
+  }
+
+  function openGame(url){
+    addRecent(url);
+    renderHomeLists();
+    const projectsSection = document.getElementById('projects');
+    const wasActive = projectsSection.classList.contains('active');
+    const reduced = document.documentElement.classList.contains('reduce-motion');
+    if(!wasActive){ showSection('projects'); }
+    setTimeout(() => loadGame(url), wasActive || reduced ? 0 : 300);
+  }
 
   document.getElementById('fsBtn').addEventListener('click', () => {
     if (frame.requestFullscreen) frame.requestFullscreen();
     else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
   });
+
+  // ---- render featured ----
+  const featuredEl = document.getElementById('featured');
+  featuredEl.innerHTML = projects.filter(p => p.featured).map(p => cardHTML(p, false)).join('');
+  wireGameLinks(featuredEl);
+  wireFavButtons(featuredEl);
+
+  // ---- render full list ----
+  const rowsEl = document.getElementById('allRows');
+  rowsEl.innerHTML = projects.map((p, i) => rowHTML(p, i)).join('');
+  wireGameLinks(rowsEl);
+  wireFavButtons(rowsEl);
+  document.getElementById('count').textContent = String(projects.length).padStart(2, '0') + ' total';
+
+  // ---- home strips: recent + favorites ----
+  renderHomeLists();
 
   // ---- settings modal open/close ----
   const modal = document.getElementById('settingsModal');
