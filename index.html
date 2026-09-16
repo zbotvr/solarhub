@@ -214,8 +214,8 @@
     margin: 0;
   }
 
-  .featured.mini-grid{ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-  .featured.mini-grid .card img{ height: 88px; }
+  .featured.mini-grid{ grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .featured.mini-grid .card img{ height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
   .featured.mini-grid .card .body{ padding: 10px 12px 12px; }
   .featured.mini-grid .card h3{ font-size: 0.9rem; margin: 0; }
 
