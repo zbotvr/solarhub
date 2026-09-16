@@ -8,7 +8,7 @@
 <link id="originalFavicon" rel="icon" type="image/png" href="images/solarhub.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #201e1c;
@@ -20,6 +20,8 @@
     --line: #3b3632;
     --accent: #b6402c;
     --ease: cubic-bezier(.4,0,.2,1);
+    --font-head: "Fraunces", serif;
+    --font-body: "Space Grotesk", sans-serif;
   }
 
   *{ box-sizing: border-box; }
@@ -29,7 +31,7 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: "Space Grotesk", sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -58,7 +60,7 @@
   }
 
   .masthead .brand{
-    font-family: "Fraunces", serif;
+    font-family: var(--font-head);
     font-weight: 500;
     font-size: 1.15rem;
     letter-spacing: -0.01em;
@@ -120,7 +122,7 @@
   }
 
   .hero h1{
-    font-family: "Fraunces", serif;
+    font-family: var(--font-head);
     font-weight: 500;
     font-size: clamp(2.1rem, 6vw, 3.4rem);
     line-height: 1.08;
@@ -199,7 +201,7 @@
 
   .featured .card .body{ padding: 14px 16px 16px; }
   .featured .card h3{
-    font-family: "Fraunces", serif;
+    font-family: var(--font-head);
     font-weight: 500;
     font-size: 1.05rem;
     margin: 0 0 4px;
@@ -247,7 +249,7 @@
 
   ol.rows li a .info{ flex: 1; min-width: 0; }
   ol.rows li a .name{
-    font-family: "Fraunces", serif;
+    font-family: var(--font-head);
     font-weight: 500;
     font-size: 1.05rem;
     line-height: 1.25;
@@ -337,7 +339,9 @@
   .modal-backdrop.active{ opacity: 1; visibility: visible; }
 
   .modal{
-    width: min(340px, 90vw);
+    width: min(360px, 90vw);
+    max-height: 86vh;
+    overflow-y: auto;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 6px;
@@ -349,7 +353,7 @@
   .modal-backdrop.active .modal{ transform: scale(1) translateY(0); }
 
   .modal h2{
-    font-family: "Fraunces", serif;
+    font-family: var(--font-head);
     font-weight: 500;
     font-size: 1.2rem;
     margin: 0 0 18px;
@@ -369,6 +373,8 @@
     color: var(--muted);
     margin: 0 0 10px;
   }
+  .modal .block{ margin-top: 22px; }
+  .modal .block:first-of-type{ margin-top: 0; }
 
   .swatches{
     display: grid;
@@ -385,6 +391,41 @@
   .swatch:hover{ transform: scale(1.1); }
   .swatch.active{ border-color: var(--ink); }
 
+  .option-row{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt-btn{
+    padding: 6px 13px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.76rem;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .opt-btn:hover{ color: var(--ink); border-color: var(--accent); }
+  .opt-btn.active{ background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+  .toggle-row{ display: flex; align-items: center; justify-content: space-between; }
+  .toggle-row .label{ margin: 0; }
+  .toggle{
+    width: 42px; height: 24px;
+    border-radius: 20px;
+    background: var(--line);
+    border: none;
+    position: relative;
+    padding: 0;
+    flex: none;
+    transition: background 0.25s var(--ease);
+  }
+  .toggle .knob{
+    position: absolute; top: 3px; left: 3px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--ink);
+    transition: transform 0.25s var(--ease);
+  }
+  .toggle.active{ background: var(--accent); }
+  .toggle.active .knob{ transform: translateX(18px); }
+
   /* ---------- footer ---------- */
   .colophon{
     max-width: 900px;
@@ -398,6 +439,40 @@
   }
   .colophon a{ transition: color 0.2s var(--ease), border-color 0.2s var(--ease); }
   .colophon a:hover{ color: var(--ink); border-color: var(--accent) !important; }
+
+  /* ---------- grain overlay ---------- */
+  .grain{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 70;
+    opacity: 0;
+    mix-blend-mode: overlay;
+    background-repeat: repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    transition: opacity 0.3s var(--ease);
+  }
+  .grain.active{ opacity: 0.06; }
+
+  /* ---------- reduce motion ---------- */
+  html.reduce-motion *,
+  html.reduce-motion *::before,
+  html.reduce-motion *::after{
+    transition-duration: 0.001s !important;
+    animation-duration: 0.001s !important;
+  }
+  html.reduce-motion .featured .card:hover,
+  html.reduce-motion .featured .card:active,
+  html.reduce-motion .hero button:hover,
+  html.reduce-motion .hero button:active,
+  html.reduce-motion .masthead .settings-btn:hover,
+  html.reduce-motion #fsBtn:hover,
+  html.reduce-motion .swatch:hover,
+  html.reduce-motion .modal .close:hover,
+  html.reduce-motion ol.rows li a:hover img{
+    transform: none !important;
+  }
+  html.reduce-motion section{ transform: none !important; }
 </style>
 </head>
 <body>
@@ -411,7 +486,7 @@
   </nav>
 </header>
 
-<section id="home" class="active">
+<section id="home">
   <div class="hero">
     <h1>free projects to play in your browser</h1>
     <p>no downloads, no accounts. pick something from the list and it loads right here on the page.</p>
@@ -452,10 +527,35 @@
   <div class="modal">
     <button class="close" id="closeSettings">&times;</button>
     <h2>settings</h2>
-    <p class="label">accent color</p>
-    <div class="swatches" id="swatches"></div>
+
+    <div class="block">
+      <p class="label">accent color</p>
+      <div class="swatches" id="swatches"></div>
+    </div>
+
+    <div class="block">
+      <p class="label">font</p>
+      <div class="option-row" id="fontOptions"></div>
+    </div>
+
+    <div class="block">
+      <p class="label">landing tab</p>
+      <div class="option-row" id="landingOptions"></div>
+    </div>
+
+    <div class="block toggle-row">
+      <p class="label">reduce motion</p>
+      <button class="toggle" id="motionToggle" role="switch" aria-checked="false"><span class="knob"></span></button>
+    </div>
+
+    <div class="block toggle-row">
+      <p class="label">background grain</p>
+      <button class="toggle" id="grainToggle" role="switch" aria-checked="false"><span class="knob"></span></button>
+    </div>
   </div>
 </div>
+
+<div class="grain" id="grainOverlay"></div>
 
 <script>
   // ---- data: add new projects here ----
@@ -474,14 +574,37 @@
 
   const accents = ["#b6402c","#2e7d5b","#2f5fb0","#a8579a","#c98a2c","#5c5f66"];
 
+  const fontOptions = [
+    { id: "original", label: "original", head: '"Fraunces", serif', body: '"Space Grotesk", sans-serif' },
+    { id: "mono", label: "mono", head: '"JetBrains Mono", monospace', body: '"JetBrains Mono", monospace' },
+    { id: "modern", label: "modern", head: '"Inter", sans-serif', body: '"Inter", sans-serif' },
+    { id: "classic", label: "classic", head: "Georgia, serif", body: "Georgia, serif" }
+  ];
+
+  const landingOptions = [
+    { id: "home", label: "home" },
+    { id: "projects", label: "projects" }
+  ];
+
+  // ---- apply saved landing tab before first paint ----
+  const savedLanding = localStorage.getItem('solarhub-landing') || 'home';
+  document.getElementById(savedLanding === 'projects' ? 'projects' : 'home').classList.add('active', 'show');
+
   // ---- nav ----
-  const sections = document.querySelectorAll('section');
   let switching = false;
 
   function showSection(id){
     const current = document.querySelector('section.active');
     const next = document.getElementById(id);
     if(!next || next === current || switching) return;
+
+    const reduced = document.documentElement.classList.contains('reduce-motion');
+
+    if(reduced){
+      if(current){ current.classList.remove('show', 'active'); }
+      next.classList.add('active', 'show');
+      return;
+    }
 
     if(!current){
       next.classList.add('active');
@@ -508,10 +631,6 @@
   document.querySelectorAll('[data-goto]').forEach(el => {
     el.addEventListener('click', () => showSection(el.dataset.goto));
   });
-
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    document.querySelector('section.active')?.classList.add('show');
-  }));
 
   // ---- render featured ----
   const featuredEl = document.getElementById('featured');
@@ -548,8 +667,9 @@
   document.querySelectorAll('[data-url]').forEach(el => {
     el.addEventListener('click', e => {
       e.preventDefault();
+      const reduced = document.documentElement.classList.contains('reduce-motion');
       const alreadyOpen = player.classList.contains('active');
-      if(!alreadyOpen){
+      if(!alreadyOpen || reduced){
         frame.src = el.dataset.url;
         player.classList.add('active');
       } else {
@@ -559,7 +679,7 @@
           player.classList.add('active');
         }, 300);
       }
-      setTimeout(() => player.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+      setTimeout(() => player.scrollIntoView({ behavior: 'smooth', block: 'center' }), reduced ? 0 : 120);
     });
   });
 
@@ -568,12 +688,13 @@
     else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
   });
 
-  // ---- settings: accent color only ----
+  // ---- settings modal open/close ----
   const modal = document.getElementById('settingsModal');
   document.getElementById('openSettings').addEventListener('click', () => modal.classList.add('active'));
   document.getElementById('closeSettings').addEventListener('click', () => modal.classList.remove('active'));
   modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
 
+  // ---- accent color ----
   const swatchesEl = document.getElementById('swatches');
   const savedAccent = localStorage.getItem('solarhub-accent') || accents[0];
 
@@ -589,6 +710,73 @@
     btn.addEventListener('click', () => applyAccent(btn.dataset.color));
   });
   applyAccent(savedAccent);
+
+  // ---- font ----
+  const fontOptionsEl = document.getElementById('fontOptions');
+  const savedFont = localStorage.getItem('solarhub-font') || 'original';
+
+  function applyFont(id){
+    const f = fontOptions.find(o => o.id === id) || fontOptions[0];
+    document.documentElement.style.setProperty('--font-head', f.head);
+    document.documentElement.style.setProperty('--font-body', f.body);
+    localStorage.setItem('solarhub-font', f.id);
+    fontOptionsEl.querySelectorAll('.opt-btn').forEach(b => b.classList.toggle('active', b.dataset.id === f.id));
+  }
+
+  fontOptionsEl.innerHTML = fontOptions.map(f => `<button class="opt-btn" data-id="${f.id}">${f.label}</button>`).join('');
+  fontOptionsEl.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyFont(btn.dataset.id));
+  });
+  applyFont(savedFont);
+
+  // ---- landing tab ----
+  const landingOptionsEl = document.getElementById('landingOptions');
+
+  function markLanding(id){
+    landingOptionsEl.querySelectorAll('.opt-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+  }
+
+  landingOptionsEl.innerHTML = landingOptions.map(l => `<button class="opt-btn" data-id="${l.id}">${l.label}</button>`).join('');
+  landingOptionsEl.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      localStorage.setItem('solarhub-landing', btn.dataset.id);
+      markLanding(btn.dataset.id);
+    });
+  });
+  markLanding(savedLanding);
+
+  // ---- reduce motion ----
+  const motionToggle = document.getElementById('motionToggle');
+  const savedMotion = localStorage.getItem('solarhub-motion') === '1';
+
+  function applyMotion(active){
+    document.documentElement.classList.toggle('reduce-motion', active);
+    motionToggle.classList.toggle('active', active);
+    motionToggle.setAttribute('aria-checked', String(active));
+    localStorage.setItem('solarhub-motion', active ? '1' : '0');
+  }
+
+  motionToggle.addEventListener('click', () => {
+    applyMotion(!document.documentElement.classList.contains('reduce-motion'));
+  });
+  applyMotion(savedMotion);
+
+  // ---- background grain ----
+  const grainToggle = document.getElementById('grainToggle');
+  const grainOverlay = document.getElementById('grainOverlay');
+  const savedGrain = localStorage.getItem('solarhub-grain') === '1';
+
+  function applyGrain(active){
+    grainOverlay.classList.toggle('active', active);
+    grainToggle.classList.toggle('active', active);
+    grainToggle.setAttribute('aria-checked', String(active));
+    localStorage.setItem('solarhub-grain', active ? '1' : '0');
+  }
+
+  grainToggle.addEventListener('click', () => {
+    applyGrain(!grainOverlay.classList.contains('active'));
+  });
+  applyGrain(savedGrain);
 </script>
 
 </body>
